@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>My Task Manager</title>
+  </head>
+
+  <body> 
+    <header class="header">
+      <h1>My Task Manager </h1>
+      <nav class="nav">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#tasks">Tasks</a>
+        </nav>
+      <div class="profile">Admin</div>
+    </header>
+
+  <main id="home">  
+    <section class="add-task">
+  <h2>Add a Task</h2>
+
+  <div>
+    <input style="width: 100%;" type="text" id="task-input" placeholder="Enter task">
+    <button id = "add-btn"> Add task</button>
+  </div>
+</section>
+
+<section class="tasks" id="tasks">
+  <h2>Your Tasks</h2>
+
+<!--
+  <div>
+    <h3>Complete HTML Assignment</h3>
+    <p>Pending</p>
+    <button>Delete</button>
+  
+    <h3>Learn JavaScript</h3>
+    <p>Pending</p>
+    <button>Delete</button>
+  
+    <h3>Build a Responsive Website</h3>
+    <p>Completed</p>
+    <button>Delete</button>
+  </div>
+-->
+  <div id="task-list"> </div>
+
+</section>
+
+<section class="about" id="about">
+  <h2>About</h2>
+  <p>A simple dashboard <br> keeping track of what needs doing.</p>
+</section>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 My Task Manager. All rights reserved.</p>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>
