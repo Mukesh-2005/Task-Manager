@@ -1,37 +1,54 @@
+* { box-sizing: border-box; }
+
 body {
   font-family: Arial;
-  background-color: #f50303;
+  background-color: #483d3d;
   margin: 0;
 }
 
-
+/* HEADER: Flexbox + sticky */
 .header {
-  background-color: #c40b0b;
-  color: rgb(3, 3, 3);
-  text-align: center;
-  padding: 60px 60px 60px 60px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 20px 30px;
+  background-color: #9b2626;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
+.header h1 { margin: 0; }
+.nav { display: flex; gap: 16px; }
+.nav a { color: white; text-decoration: none; }
+.nav a:hover { text-decoration: underline; }
+.profile { margin-left: auto; }          /* pushes Admin to the far right */
 
-
+/* MAIN: Grid with named areas */
 main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "add   about"
+    "tasks tasks";
+  gap: 20px;
   padding: 20px;
 }
-
+.add-task { grid-area: add; }
+.about    { grid-area: about; }
+.tasks    { grid-area: tasks; }
 
 section {
   background-color: rgba(7, 76, 238, 0.64);
   padding: 20px;
-  margin-bottom: 20px;
   border-radius: 8px;
-  width: 100%;
 }
 
-.add-task div {
-  display: flex;
-  gap: 10px;
-  width: 100%;
-}
+/* ADD TASK */
+.add-task div { display: flex; gap: 10px; }
+input { flex: 1; padding: 10px; }
 
+/* TASK LIST */
 #task-list {
   display: flex;
   flex-direction: column;
@@ -42,30 +59,32 @@ section {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid #ddd;
+  gap: 10px;
   padding: 10px;
+  border: 1px solid #ddd;
   border-radius: 5px;
   background-color: #fafafa;
+  color: #222;
+  transition: all 0.2s ease;
+}
+.task-card h3 { flex: 1; margin: 0; }    /* title takes spare space */
+.task-card p  { margin: 0; }
+.task-card:hover {
+  background: #eef3ff;
+  transform: translateY(-4px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
 }
 
-input {
-  flex: 1;
-  padding: 10px;
-  width: 50%;
-}
-
+/* BUTTONS */
 button {
   padding: 10px 20px;
   background-color: #af2020;
   color: white;
   border: none;
   cursor: pointer;
+  transition: background 0.2s ease;
 }
-
-
-
-
-
+button:hover { background-color: #7a1010; }
 
 .footer {
   text-align: center;
@@ -74,9 +93,15 @@ button {
   padding: 15px;
 }
 
-
-@media (max-width: 480px) {
-  .add-task div {
-    flex-direction: column;
+/* RESPONSIVE: single column on small screens */
+@media (max-width: 700px) {
+  main {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "add"
+      "tasks"
+      "about";
   }
+  .header { flex-wrap: wrap; }
+  .add-task div { flex-direction: column; }
 }
