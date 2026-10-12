@@ -1,54 +1,131 @@
 * { box-sizing: border-box; }
 
+:root {
+  --bg: #f4f6fb;
+  --navy: #1f3a5f;
+  --primary: #2f6fed;
+  --primary-dark: #1f4fb8;
+  --danger: #d64545;
+  --success: #2e9e5b;
+  --warning: #f5a623;
+  --text: #222;
+}
+
 body {
-  font-family: Arial;
-  background-color: #483d3d;
+  font-family: Arial, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
   margin: 0;
 }
 
-/* HEADER: Flexbox + sticky */
+/* ---------- HEADER: Flexbox + sticky ---------- */
 .header {
   display: flex;
   align-items: center;
   gap: 24px;
-  padding: 20px 30px;
-  background-color: #9b2626;
+  padding: 16px 30px;
+  background-color: var(--navy);
   color: white;
   position: sticky;
   top: 0;
   z-index: 10;
 }
-.header h1 { margin: 0; }
+.header h1 { margin: 0; font-size: 22px; }
 .nav { display: flex; gap: 16px; }
-.nav a { color: white; text-decoration: none; }
-.nav a:hover { text-decoration: underline; }
-.profile { margin-left: auto; }          /* pushes Admin to the far right */
+.nav a { color: white; text-decoration: none; opacity: 0.85; }
+.nav a:hover { opacity: 1; text-decoration: underline; }
+.profile {
+  margin-left: auto;                 /* pushes Admin to the far right */
+  background: rgba(255, 255, 255, 0.15);
+  padding: 6px 14px;
+  border-radius: 20px;
+}
 
-/* MAIN: Grid with named areas */
+/* ---------- PAGE LAYOUT: Grid with named areas ---------- */
 main {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 320px 1fr;
   grid-template-areas:
-    "add   about"
-    "tasks tasks";
+    "add   tasks"
+    "about tasks";
+  grid-template-rows: auto 1fr;
   gap: 20px;
+  align-items: start;
   padding: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 .add-task { grid-area: add; }
 .about    { grid-area: about; }
 .tasks    { grid-area: tasks; }
 
 section {
-  background-color: rgba(7, 76, 238, 0.64);
+  background: white;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
+section h2 { margin-top: 0; color: var(--navy); }
 
-/* ADD TASK */
-.add-task div { display: flex; gap: 10px; }
-input { flex: 1; padding: 10px; }
+/* ---------- ADD FORM ---------- */
+.add-form { display: flex; flex-direction: column; gap: 10px; }
+input[type="text"] {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #cfd6e4;
+  border-radius: 6px;
+  font-size: 15px;
+}
+input[type="text"]:focus { outline: 2px solid var(--primary); border-color: transparent; }
 
-/* TASK LIST */
+/* ---------- STATS: Grid ---------- */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.stat {
+  background: var(--navy);
+  color: white;
+  padding: 14px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 14px;
+}
+.stat span { display: block; font-size: 26px; font-weight: bold; }
+
+/* ---------- TOOLBAR: Flexbox ---------- */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.toolbar input { min-width: 180px; }
+.filters { display: flex; gap: 6px; }
+
+/* ---------- BUTTONS ---------- */
+button {
+  padding: 9px 16px;
+  border: none;
+  border-radius: 6px;
+  background: var(--primary);
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+button:hover { background: var(--primary-dark); }
+
+.filter-btn { background: #e3e8f4; color: var(--navy); }
+.filter-btn:hover { background: #d3dbee; }
+.filter-btn.active { background: var(--navy); color: white; }
+
+.btn-delete { background: var(--danger); }
+.btn-delete:hover { background: #a93232; }
+
+/* ---------- TASK LIST: Flexbox column ---------- */
 #task-list {
   display: flex;
   flex-direction: column;
@@ -57,51 +134,82 @@ input { flex: 1; padding: 10px; }
 
 .task-card {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 10px;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #fafafa;
-  color: #222;
+  gap: 12px;
+  padding: 12px 14px;
+  background: #fafbff;
+  border: 1px solid #e3e8f4;
+  border-left: 5px solid var(--warning);
+  border-radius: 8px;
   transition: all 0.2s ease;
 }
-.task-card h3 { flex: 1; margin: 0; }    /* title takes spare space */
-.task-card p  { margin: 0; }
 .task-card:hover {
-  background: #eef3ff;
-  transform: translateY(-4px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
 }
 
-/* BUTTONS */
-button {
-  padding: 10px 20px;
-  background-color: #af2020;
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-button:hover { background-color: #7a1010; }
+.task-title { flex: 1; margin: 0; font-size: 16px; }   /* takes the spare space */
+.actions { display: flex; gap: 8px; }
+.actions button { flex-shrink: 0; }                     /* buttons never squeeze */
 
+.badge {
+  font-size: 12px;
+  font-weight: bold;
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+.badge.pending   { background: #fff1d6; color: #9a6400; }
+.badge.completed { background: #d9f3e4; color: #1d6b3d; }
+
+/* completed tasks: state comes from the data, via the "done" class */
+.task-card.done {
+  order: 1;                                  /* sink to the bottom */
+  opacity: 0.75;
+  border-left-color: var(--success);
+}
+.task-card.done .task-title { text-decoration: line-through; }
+
+.empty {
+  text-align: center;
+  color: #7b869c;
+  padding: 24px;
+}
+
+/* ---------- FOOTER + FIXED BUTTON ---------- */
 .footer {
   text-align: center;
-  background-color: #333;
+  background: var(--navy);
   color: white;
   padding: 15px;
+  margin-top: 20px;
 }
+.footer p { margin: 0; }
 
-/* RESPONSIVE: single column on small screens */
-@media (max-width: 700px) {
+.to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--primary);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  z-index: 100;
+}
+.to-top:hover { background: var(--primary-dark); }
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 800px) {
   main {
     grid-template-columns: 1fr;
     grid-template-areas:
       "add"
       "tasks"
       "about";
+    grid-template-rows: auto;
   }
-  .header { flex-wrap: wrap; }
-  .add-task div { flex-direction: column; }
+  .header { flex-wrap: wrap; gap: 10px 20px; }
+  .task-card { flex-wrap: wrap; }
+  .task-title { flex-basis: 100%; }
 }
