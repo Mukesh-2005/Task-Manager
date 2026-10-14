@@ -12,7 +12,8 @@ let tasklist = document.getElementById("task-list");
 let taskInput = document.getElementById("task-input");
 let addBtn = document.getElementById("add-btn");
 let searchInput = document.getElementById("search-input");
-let filterBtns = document.querySelectorAll(".filter-btn");
+const taskDetail = document.getElementById("task-detail");
+let filterBtns = document.querySelectorAll(".filter-btn"); 
 
 function updateStats() {
     let doneCount = task.filter(function (t) { return t.done; }).length;
@@ -46,21 +47,25 @@ function renderTask() {
 
     visible.forEach(function (t) {
         let card = document.createElement("div");
-        card.className = "task-card";
+        card.className = "task-card"; 
         card.classList.add("item-" + t.id);
         card.dataset.id = t.id;
         if (t.done) card.classList.add("done");
 
         let name = document.createElement("h3");
         name.className = "task-title";
-        name.textContent = t.text;                       // textContent: safe for user input
+        name.textContent = t.text;   
+        
+        name.addEventListener("click", function () {
+    showTaskDetail(t);
+});// textContent: safe for user input
 
         let badge = document.createElement("span");
         badge.className = t.done ? "badge completed" : "badge pending";
         badge.textContent = t.done ? "Completed" : "Pending";
 
         let actions = document.createElement("div");
-        actions.className = "actions";
+        actions.className = "actions"; 
 
         let doneBtn = document.createElement("button");
         doneBtn.textContent = t.done ? "Undo" : "Mark as Done";
@@ -74,6 +79,7 @@ function renderTask() {
         deleteBtn.textContent = "Delete";
         deleteBtn.addEventListener("click", function () {
             task = task.filter(function (x) { return x.id !== t.id; });
+                taskDetail.classList.add("hidden");
             renderTask();
         });
 
@@ -115,5 +121,12 @@ filterBtns.forEach(function (btn) {
         renderTask();
     });
 });
+
+function showTaskDetail(t) {
+    taskDetail.textContent =
+        "Task #" + t.id + ": " + t.text +
+        " | Status: " + (t.done ? "Completed" : "Pending");
+    taskDetail.classList.remove("hidden");
+}
 
 renderTask();
